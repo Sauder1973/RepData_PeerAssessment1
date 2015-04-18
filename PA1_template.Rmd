@@ -34,7 +34,7 @@ library(dplyr)
 library(xtable)
 ```
 ```{r echo = FALSE}
-setwd("C:\\Users\\Wes\\Documents\\RWorkingDirectory\\Reproducible Research\\Assignment1")
+setwd("C:\\Users\\Wes\\Documents\\RWorkingDirectory\\Reproducible Research\\RepData_PeerAssessment1")
 ```
 
 
@@ -280,22 +280,3 @@ TotNumStepsRunChartWkDay
 
 > #####**Overall, there appears to be more activity during the Weekend than the week day.**
 
-```{r echo = TRUE, comment = ""}
-
-library(reshape2)
-
-
-
-
-
-
-grp <- group_by(StepIntMeanWkDay, DaysOfWeek)
-summarise(grp, mean=mean(interval),sd=sd(interval) )
-
-dt <- data.frame(age=rchisq(20,10),group=sample(1:2,20,rep=T))
-grp <- group_by(dt, group)
-summarise(grp, mean=mean(age),sd=sd(age) )
-
-
-
-```
