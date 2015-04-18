@@ -30,49 +30,104 @@ The dataset is stored in a comma-separated-value (CSV) file and there are a tota
 
 ### ANALYSIS
 
-```{r echo = FALSE, message = FALSE}
-library(ggplot2)
-library(dplyr)
-library(xtable)
-```
-```{r echo = FALSE}
-setwd("C:\\Users\\Wes\\Documents\\RWorkingDirectory\\Reproducible Research\\RepData_PeerAssessment1")
-```
+
+
 
 
 ####1 - Loading Dataset (.csv)
 
-```{r tidy = TRUE}
+
+```r
 MasterActivityData <- read.csv("activity.csv")
 ```
 
 ####2 - Determining the mean total number of steps taken per day.
 
 + Remove the missing values in the dataset.
-```{r tidy = TRUE}
 
-cols<- c("steps", "date", "interval")
-CompleteActivityData <- MasterActivityData[!rowSums(is.na(MasterActivityData[cols])), ]
-
+```r
+cols <- c("steps", "date", "interval")
+CompleteActivityData <- MasterActivityData[!rowSums(is.na(MasterActivityData[cols])), 
+    ]
 ```
 + Calculate the total number of steps taken per day
-```{r tidy = TRUE}
-StepDayTotals <- data.frame(CompleteActivityData %>%
-                  group_by(date) %>%
-summarise(TotalSteps = sum(steps)))
+
+```r
+StepDayTotals <- data.frame(CompleteActivityData %>% group_by(date) %>% summarise(TotalSteps = sum(steps)))
 ```
 
 + Results Showing Total Steps Taken Per Day are as follows:
 
 
-```{r xtable, results="asis"}
+
+```r
 tab <- xtable(StepDayTotals,align = c("c","c","c"),label=NULL )
 print(tab, type="html", include.rownames = FALSE)
 ```
 
+<!-- html table generated in R 3.1.3 by xtable 1.7-4 package -->
+<!-- Fri Apr 17 23:27:10 2015 -->
+<table border=1>
+<tr> <th> date </th> <th> TotalSteps </th>  </tr>
+  <tr> <td align="center"> 2012-10-02 </td> <td align="center"> 126 </td> </tr>
+  <tr> <td align="center"> 2012-10-03 </td> <td align="center"> 11352 </td> </tr>
+  <tr> <td align="center"> 2012-10-04 </td> <td align="center"> 12116 </td> </tr>
+  <tr> <td align="center"> 2012-10-05 </td> <td align="center"> 13294 </td> </tr>
+  <tr> <td align="center"> 2012-10-06 </td> <td align="center"> 15420 </td> </tr>
+  <tr> <td align="center"> 2012-10-07 </td> <td align="center"> 11015 </td> </tr>
+  <tr> <td align="center"> 2012-10-09 </td> <td align="center"> 12811 </td> </tr>
+  <tr> <td align="center"> 2012-10-10 </td> <td align="center"> 9900 </td> </tr>
+  <tr> <td align="center"> 2012-10-11 </td> <td align="center"> 10304 </td> </tr>
+  <tr> <td align="center"> 2012-10-12 </td> <td align="center"> 17382 </td> </tr>
+  <tr> <td align="center"> 2012-10-13 </td> <td align="center"> 12426 </td> </tr>
+  <tr> <td align="center"> 2012-10-14 </td> <td align="center"> 15098 </td> </tr>
+  <tr> <td align="center"> 2012-10-15 </td> <td align="center"> 10139 </td> </tr>
+  <tr> <td align="center"> 2012-10-16 </td> <td align="center"> 15084 </td> </tr>
+  <tr> <td align="center"> 2012-10-17 </td> <td align="center"> 13452 </td> </tr>
+  <tr> <td align="center"> 2012-10-18 </td> <td align="center"> 10056 </td> </tr>
+  <tr> <td align="center"> 2012-10-19 </td> <td align="center"> 11829 </td> </tr>
+  <tr> <td align="center"> 2012-10-20 </td> <td align="center"> 10395 </td> </tr>
+  <tr> <td align="center"> 2012-10-21 </td> <td align="center"> 8821 </td> </tr>
+  <tr> <td align="center"> 2012-10-22 </td> <td align="center"> 13460 </td> </tr>
+  <tr> <td align="center"> 2012-10-23 </td> <td align="center"> 8918 </td> </tr>
+  <tr> <td align="center"> 2012-10-24 </td> <td align="center"> 8355 </td> </tr>
+  <tr> <td align="center"> 2012-10-25 </td> <td align="center"> 2492 </td> </tr>
+  <tr> <td align="center"> 2012-10-26 </td> <td align="center"> 6778 </td> </tr>
+  <tr> <td align="center"> 2012-10-27 </td> <td align="center"> 10119 </td> </tr>
+  <tr> <td align="center"> 2012-10-28 </td> <td align="center"> 11458 </td> </tr>
+  <tr> <td align="center"> 2012-10-29 </td> <td align="center"> 5018 </td> </tr>
+  <tr> <td align="center"> 2012-10-30 </td> <td align="center"> 9819 </td> </tr>
+  <tr> <td align="center"> 2012-10-31 </td> <td align="center"> 15414 </td> </tr>
+  <tr> <td align="center"> 2012-11-02 </td> <td align="center"> 10600 </td> </tr>
+  <tr> <td align="center"> 2012-11-03 </td> <td align="center"> 10571 </td> </tr>
+  <tr> <td align="center"> 2012-11-05 </td> <td align="center"> 10439 </td> </tr>
+  <tr> <td align="center"> 2012-11-06 </td> <td align="center"> 8334 </td> </tr>
+  <tr> <td align="center"> 2012-11-07 </td> <td align="center"> 12883 </td> </tr>
+  <tr> <td align="center"> 2012-11-08 </td> <td align="center"> 3219 </td> </tr>
+  <tr> <td align="center"> 2012-11-11 </td> <td align="center"> 12608 </td> </tr>
+  <tr> <td align="center"> 2012-11-12 </td> <td align="center"> 10765 </td> </tr>
+  <tr> <td align="center"> 2012-11-13 </td> <td align="center"> 7336 </td> </tr>
+  <tr> <td align="center"> 2012-11-15 </td> <td align="center">  41 </td> </tr>
+  <tr> <td align="center"> 2012-11-16 </td> <td align="center"> 5441 </td> </tr>
+  <tr> <td align="center"> 2012-11-17 </td> <td align="center"> 14339 </td> </tr>
+  <tr> <td align="center"> 2012-11-18 </td> <td align="center"> 15110 </td> </tr>
+  <tr> <td align="center"> 2012-11-19 </td> <td align="center"> 8841 </td> </tr>
+  <tr> <td align="center"> 2012-11-20 </td> <td align="center"> 4472 </td> </tr>
+  <tr> <td align="center"> 2012-11-21 </td> <td align="center"> 12787 </td> </tr>
+  <tr> <td align="center"> 2012-11-22 </td> <td align="center"> 20427 </td> </tr>
+  <tr> <td align="center"> 2012-11-23 </td> <td align="center"> 21194 </td> </tr>
+  <tr> <td align="center"> 2012-11-24 </td> <td align="center"> 14478 </td> </tr>
+  <tr> <td align="center"> 2012-11-25 </td> <td align="center"> 11834 </td> </tr>
+  <tr> <td align="center"> 2012-11-26 </td> <td align="center"> 11162 </td> </tr>
+  <tr> <td align="center"> 2012-11-27 </td> <td align="center"> 13646 </td> </tr>
+  <tr> <td align="center"> 2012-11-28 </td> <td align="center"> 10183 </td> </tr>
+  <tr> <td align="center"> 2012-11-29 </td> <td align="center"> 7047 </td> </tr>
+   </table>
+
 + Histogram of the total number of Steps taken each day
 
-```{r}
+
+```r
 TotNumStepsHist <- ggplot(StepDayTotals, aes(x=TotalSteps)) + 
                   geom_histogram(
                               binwidth=1500,
@@ -85,27 +140,34 @@ TotNumStepsHist <- ggplot(StepDayTotals, aes(x=TotalSteps)) +
                              color = "blue", linetype="dashed", Size = 2) +
                   ggtitle("Frequency of Steps Taken Per Day") + theme(plot.title = element_text(lineheight = .8, face = "bold"))
 ```
-```{r echo=FALSE }
-TotNumStepsHist
-```
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7-1.png) 
 
 + Calculate and report the mean and median of the total number of steps taken per day
-```{r tidy = TRUE}
+
+```r
 StepDayMeanMedian = median(StepDayTotals$TotalSteps)
 StepDayMeanMedian
-````
-```{r tidy = TRUE}
+```
 
+```
+## [1] 10765
+```
+
+```r
 StepDayMeanMean = mean(StepDayTotals$TotalSteps)
 StepDayMeanMean
+```
+
+```
+## [1] 10766.19
 ```
 
 
 ####3 - Determining the average daily activity pattern.
 
 +Time series plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
-```{r}
 
+```r
 StepIntervalMean <- data.frame(CompleteActivityData %>%
                   group_by(interval) %>%
                   summarise(AverageSteps = mean(steps)))
@@ -117,12 +179,14 @@ TotNumStepsRunChart <- ggplot(data=StepIntervalMean, aes(x=interval, y=AverageSt
                         xlab("Time Interval (5 min per interval)") + ylab("Average Steps Per 5 min Interval") +
                         ggtitle("Time Series Plot - Average Steps Every Five Minutes") + theme(plot.title = element_text(lineheight = .8, face = "bold"))
 TotNumStepsRunChart
-
 ```
+
+![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10-1.png) 
 
 + Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
-```{r}
+
+```r
 MaxStepsByInt <- max(StepIntervalMean$AverageSteps)
 
 MaxInterval <- tail(StepIntervalMean %>%
@@ -132,7 +196,18 @@ MaxInterval <- tail(StepIntervalMean %>%
 MaxInterval <- as.numeric(MaxInterval[1,1])
 
 MaxInterval
+```
+
+```
+## [1] 835
+```
+
+```r
 MaxStepsByInt
+```
+
+```
+## [1] 206.1698
 ```
 
 ####4 - Imputing missing values
@@ -141,19 +216,23 @@ MaxStepsByInt
 
 + Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)
 
-```{r}
+
+```r
 MasterDataRowNums <- nrow(MasterActivityData)
 CleanDataRowNums <- nrow(CompleteActivityData)
 MissingRows <- MasterDataRowNums - CleanDataRowNums
 MissingRows
+```
 
+```
+## [1] 2304
 ```
 
 + The Mean for each five minute interval will be used to fill in all of the missing values in the dataset. 
 
 + A new dataset that is equal to the original dataset but with the missing data filled in.
-```{r}
 
+```r
 ImputtedActivityData <- MasterActivityData
 
 #Create Hash table:
@@ -171,14 +250,14 @@ for (x in (1:DataMaxRows)){
       }
       
 }
-
 ```
 
 
 
 + Histogram of the total number of steps taken each day 
 
-```{r}
+
+```r
 # Histogram overlaid with kernel density curve
 
 ImputtedStepDayTotals <- data.frame(ImputtedActivityData %>%
@@ -199,31 +278,33 @@ ImputtedTotNumStepsHist <- ggplot(ImputtedStepDayTotals, aes(x=TotalSteps)) +
                   ggtitle("Frequency of Steps Taken Per Day - Imputted Missing Values") + 
                               theme(plot.title = element_text(lineheight = .8, face = "bold"))
 ImputtedTotNumStepsHist
-
-
 ```
+
+![plot of chunk unnamed-chunk-14](figure/unnamed-chunk-14-1.png) 
 
 
 + Calculate and report the mean and median total number of steps taken per day. 
 
-```{r tidy = TRUE}
+
+```r
 ImputtedStepDayMeanMedian = median(ImputtedStepDayTotals$TotalSteps)
 ```
-```{r echo = FALSE, comment = ""}
-ImputtedStepDayMeanMedian
+
+```
+[1] 10766.19
 ```
 
 
 
 
-```{r tidy = TRUE}
 
+```r
 ImputtedStepDayMeanMean = mean(ImputtedStepDayTotals$TotalSteps)
 ```
 
-```{r echo = FALSE, comment = ""}
-ImputtedStepDayMeanMean
 
+```
+[1] 10766.19
 ```
 
 + **Conclusion:** Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
@@ -236,8 +317,8 @@ ImputtedStepDayMeanMean
 
 + Create a new factor variable in the dataset with two levels - "weekday" and "weekend" indicating whether a given date is a weekday or weekend day.
 
-```{r echo = TRUE, comment = ""}
 
+```r
 #Make Copy of DF
 DOWImputActData <- ImputtedActivityData
 
@@ -251,14 +332,13 @@ DOWImputActData$WkDay <- weekdays(DOWImputActData$dates)
 weekdays1 <- c('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday')
 DOWImputActData$DaysOfWeek <-  factor((DOWImputActData$WkDay %in% weekdays1)+1L,
       levels=1:2, labels=c('weekend', 'weekday'))
-
 ```
 
 
 
 + Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).
-```{r echo = TRUE, comment = ""}
 
+```r
 StepIntMeanWkDay <- data.frame(DOWImputActData %>%
                   group_by(DaysOfWeek,interval) %>%
                   summarise(AverageSteps = mean(steps)))
@@ -272,8 +352,9 @@ TotNumStepsRunChartWkDay <- ggplot(data=StepIntMeanWkDay, aes(x=interval, y=Aver
                         ggtitle("Time Series Plot - Weekend to Week Day Ave Steps per 5 min Interval") + 
                         theme(plot.title = element_text(lineheight = .8, face = "bold"))
 TotNumStepsRunChartWkDay
-
 ```
+
+![plot of chunk unnamed-chunk-20](figure/unnamed-chunk-20-1.png) 
 
 
 
