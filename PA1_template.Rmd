@@ -1,10 +1,9 @@
 ---
-title: "Step Activity Tracking - Assignment One"
-author: "Wes Sauder"
-date: "Wednesday, April 08, 2015"
-output:
+title: "Reproducible Research: Peer Assessment 1"
+date: "Wednesday, April 18, 2015"
+output: 
   html_document:
-    fig_caption: yes
+    keep_md: true
 ---
 
 ### INTRODUCTION
@@ -28,8 +27,6 @@ The dataset is stored in a comma-separated-value (CSV) file and there are a tota
 
 **Interval**: Identifier for the 5-minute interval in which measurement was taken
 
-### ANALYSIS
-
 ```{r echo = FALSE, message = FALSE}
 library(ggplot2)
 library(dplyr)
@@ -39,6 +36,7 @@ library(xtable)
 setwd("C:\\Users\\Wes\\Documents\\RWorkingDirectory\\Reproducible Research\\RepData_PeerAssessment1")
 ```
 
+## Loading and preprocessing the data
 
 ####1 - Loading Dataset (.csv)
 
@@ -59,16 +57,19 @@ CompleteActivityData <- MasterActivityData[!rowSums(is.na(MasterActivityData[col
 ```{r tidy = TRUE}
 StepDayTotals <- data.frame(CompleteActivityData %>%
                   group_by(date) %>%
-summarise(TotalSteps = sum(steps)))
+summarise(TotalSteps = sum(steps), AverageSteps = mean(steps)))
 ```
 
 + Results Showing Total Steps Taken Per Day are as follows:
 
-
+## What is mean total number of steps taken per day?
 ```{r xtable, results="asis"}
-tab <- xtable(StepDayTotals,align = c("c","c","c"),label=NULL )
+tab <- xtable(StepDayTotals,align = c("c","c","c","c"),label=NULL )
 print(tab, type="html", include.rownames = FALSE)
 ```
+
+
+## What is the average daily activity pattern?
 
 + Histogram of the total number of Steps taken each day
 
@@ -135,7 +136,9 @@ MaxInterval
 MaxStepsByInt
 ```
 
-####4 - Imputing missing values
+
+## Imputing missing values
+####4 - Imputing Strategy and Results
 
 *There are a number of days/intervals where there are missing values which may introduce bias into some calculations or summaries of the data.*
 
@@ -149,7 +152,10 @@ MissingRows
 
 ```
 
-+ The Mean for each five minute interval will be used to fill in all of the missing values in the dataset. 
+
+
+
++ STRATEGY:  The Mean for each five minute interval will be used to fill in all of the missing values in the dataset. 
 
 + A new dataset that is equal to the original dataset but with the missing data filled in.
 ```{r}
@@ -230,7 +236,8 @@ ImputtedStepDayMeanMean
 
 > #####**The values are different as their respective frequencies will increase as illustrated in the historgram.  This potentially skews the data if the missing data does not follow the same distribution.  This would result if the actual values in the interval differ than the mean of the intervals from the included data.  This strategy 'cleans' the distribution in the histogram, but this may not reflect the reality of the missing data.**
 
-####5 - Are there differences in activity patterns between weekdays and weekends?
+## Are there differences in activity patterns between weekdays and weekends?
+####5 - Analysis and Results of Activity patterns for weekdays and weekends?
 
 *Dataset used with the filled-in missing values.*
 
@@ -256,7 +263,7 @@ DOWImputActData$DaysOfWeek <-  factor((DOWImputActData$WkDay %in% weekdays1)+1L,
 
 
 
-+ Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).
++ Panel plot containing a time series plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).
 ```{r echo = TRUE, comment = ""}
 
 StepIntMeanWkDay <- data.frame(DOWImputActData %>%
@@ -280,5 +287,16 @@ TotNumStepsRunChartWkDay
 
 + **Conclusion:** Is there a difference between Weekend and weekday patterns?
 
-> #####**Overall, there appears to be more activity during the Weekend than the week day.**
+> #####**Overall, there appears to be more activity during the Weekend than the week day.  Weekends have an average of 42.37 steps per 5 minute each day versus a  Weekday average of 35.61 for the same 5 min interval each day**
 
++ Calculations for Weekend versus Weekday Conclusion:
+```{r tidy = TRUE}
+Results2 <- data.frame(StepIntMeanWkDay %>%
+                  group_by(DaysOfWeek) %>%
+summarise(TotalSteps = sum(AverageSteps), AverageSteps = mean(AverageSteps)))
+```
+
+```{r xtable2, results="asis"}
+tab2 <- xtable(Results2,align = c("c","c","c","c"),label=NULL )
+print(tab2, type="html", include.rownames = FALSE)
+```
